@@ -22,9 +22,33 @@ def calculate_node_degrees(edges: list) -> dict:
 
     pass
 
+from collections import deque
+
 def find_shortest_path(edges: list, source: str, target: str) -> list:
     """Sub-task 2: Find the shortest path between source and target nodes."""
-    pass
+
+    # Build adjacency list
+    graph = {}
+    for u, v in edges:
+        graph.setdefault(u, []).append(v)
+        graph.setdefault(v, []).append(u)
+
+    # BFS
+    queue = deque([(source, [source])])
+    visited = {source}
+
+    while queue:
+        node, path = queue.popleft()
+
+        if node == target:
+            return path
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+
+    return []
 
 def count_connected_components(edges: list) -> int:
     """Sub-task 3: Count the number of connected components in an undirected graph."""
