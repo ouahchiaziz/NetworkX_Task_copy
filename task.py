@@ -125,8 +125,41 @@ def compute_topological_sort(directed_edges: list) -> list:
 pass
 
 def compute_average_clustering(edges: list) -> float:
-    """Sub-task 5: Compute the average clustering coefficient of an undirected graph."""
-    pass
+    """Sub-task 5 – Average Clustering Coefficient"""
+    # Build adjacency list
+    graph = {}
+
+    for u, v in edges:
+        graph.setdefault(u, set()).add(v)
+        graph.setdefault(v, set()).add(u)
+
+    if not graph:
+        return 0.0
+
+    clustering_sum = 0.0
+
+    for node in graph:
+        neighbors = graph[node]
+        k = len(neighbors)
+
+        if k < 2:
+            clustering_sum += 0.0
+            continue
+
+        # Count edges between neighbors
+        links = 0
+        neighbors_list = list(neighbors)
+
+        for i in range(len(neighbors_list)):
+            for j in range(i + 1, len(neighbors_list)):
+                if neighbors_list[j] in graph[neighbors_list[i]]:
+                    links += 1
+
+        possible_links = k * (k - 1) / 2
+        clustering_sum += links / possible_links
+
+    return clustering_sum / len(graph)
+pass
 
 def main():
     print("Sub-task 1:", calculate_node_degrees([("A", "B"), ("B", "C"), ("B", "D")]))
