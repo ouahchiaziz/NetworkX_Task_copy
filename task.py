@@ -80,9 +80,49 @@ def count_connected_components(edges: list) -> int:
     return components
 pass
 
+from collections import deque
+
 def compute_topological_sort(directed_edges: list) -> list:
-    """Sub-task 4: Compute a topological ordering of nodes in a DAG."""
-    pass
+    """Sub-task 4 – Topological Sort in a Directed Acyclic Graph (DAG)"""
+    graph = {}
+    in_degree = {}
+    nodes = set()
+
+    # Build graph
+    for u, v in directed_edges:
+        nodes.add(u)
+        nodes.add(v)
+
+        if u not in graph:
+            graph[u] = []
+        graph[u].append(v)
+
+        in_degree[v] = in_degree.get(v, 0) + 1
+
+        if u not in in_degree:
+            in_degree[u] = 0
+
+    # Queue of nodes with no incoming edges
+    queue = deque()
+
+    for node in nodes:
+        if in_degree[node] == 0:
+            queue.append(node)
+
+    result = []
+
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+
+        for neighbor in graph.get(node, []):
+            in_degree[neighbor] -= 1
+
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+
+    return result
+pass
 
 def compute_average_clustering(edges: list) -> float:
     """Sub-task 5: Compute the average clustering coefficient of an undirected graph."""
