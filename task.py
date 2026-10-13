@@ -20,7 +20,7 @@ def calculate_node_degrees(edges: list) -> dict:
 
     return degrees
 
-    pass
+pass
 
 from collections import deque
 
@@ -51,8 +51,34 @@ def find_shortest_path(edges: list, source: str, target: str) -> list:
     return []
 
 def count_connected_components(edges: list) -> int:
-    """Sub-task 3: Count the number of connected components in an undirected graph."""
-    pass
+    """
+    Sub-task 3: Count the number of connected components
+    in an undirected graph.
+    """
+
+    # Build adjacency list
+    graph = {}
+
+    for u, v in edges:
+        graph.setdefault(u, []).append(v)
+        graph.setdefault(v, []).append(u)
+
+    visited = set()
+    components = 0
+
+    def dfs(node):
+        visited.add(node)
+        for neighbor in graph :
+            if neighbor not in visited:
+                dfs(neighbor)
+
+    for node in graph:
+        if node not in visited:
+            components += 1
+            dfs(node)
+
+    return components
+pass
 
 def compute_topological_sort(directed_edges: list) -> list:
     """Sub-task 4: Compute a topological ordering of nodes in a DAG."""
