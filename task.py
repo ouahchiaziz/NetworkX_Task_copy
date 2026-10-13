@@ -3,7 +3,23 @@ import networkx as nx
 # Check readme.md for details on each sub-task
 
 def calculate_node_degrees(edges: list) -> dict:
-    """Sub-task 1: Calculate the degree of each node in an undirected graph."""
+    """
+    Sub-task 1: Calculate the degree of each node in an undirected graph.
+
+    Args:
+        edges: List of tuples representing edges, e.g. [('A', 'B'), ('B', 'C')]
+
+    Returns:
+        Dictionary mapping each node to its degree.
+    """
+    degrees = {}
+
+    for u, v in edges:
+        degrees[u] = degrees.get(u, 0) + 1
+        degrees[v] = degrees.get(v, 0) + 1
+
+    return degrees
+
     pass
 
 def find_shortest_path(edges: list, source: str, target: str) -> list:
